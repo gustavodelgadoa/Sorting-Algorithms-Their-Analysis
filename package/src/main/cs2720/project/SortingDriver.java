@@ -32,6 +32,17 @@ public class SortingDriver {
         } // for
     } // insertionSort
 
+    public static void shellSort(Comparable[] a) {
+        int N = a.length; 
+        int h = 1; 
+        while (h < N/3) { h = 3*h + 1; } // increment h to the largest power of 3 less than N/3
+        while (h >= 1) { 
+            for (int i = h; i < N; i++) { 
+                for (int j = i; j >= h && less(a[j], a[j-h]); j -= h) { exch(a, j, j-h); }
+            } // for
+            h /= 3; // decrease h to next power of 3
+        } // while
+    } // shellSort
 
     /**
      * 
@@ -84,15 +95,15 @@ public class SortingDriver {
         Integer[] a = {117, 1777, 8590, 1714, 6577, 5931, 7621, 7659, 5960, 505, 3642, 3196, 693, 4130, 4657, 5093, 1757, 7612, 7675, 4809, 6103, 6913, 7606, 1935, 3619, 6309, 4456, 2365, 9548, 9474, 4785, 9685, 3753, 9671, 757, 5144, 7884, 645, 9713, 7581, 8930, 2589, 4097, 2822, 1590, 8413, 9147, 660, 7576, 8649, 3415, 5752, 3274, 7669, 3769, 5673, 3756, 2936, 1745, 9791, 8324, 7134, 2695, 7026, 1135, 6220, 8716, 6214, 1555, 6894, 904, 3098, 7607, 9744, 5072, 9040, 386, 6619, 3528, 3760, 9785, 578, 6107, 9272, 843, 2160, 9283, 7124, 2177, 1879, 5187, 935, 5183, 8581, 7984, 4844, 1246, 2396, 8084, 7868, 4104, 8965, 97, 8537, 8883, 8095, 1791, 8569, 2460, 5806, 3085, 804, 7344, 5737, 3429, 7924, 6848, 2956, 1871, 7359, 6176, 3117, 1896, 8370, 2168, 9678, 9948, 4016, 9703, 5030, 9946, 9494, 4910, 3261, 319, 4717, 952, 7883, 1525, 5025, 9722, 3929, 2120, 4243, 9442, 6003, 1391, 9566, 8430, 1680, 9684, 2427, 6589, 8641, 7090, 3779, 2514, 3887, 6062, 9958, 1647, 8181, 3855, 2372, 7294, 5787, 8404, 7816, 3758, 7496, 7264, 7372, 8811, 6054, 2738, 6745, 3231, 2140, 6648, 4345, 1330, 8156, 4465, 2699, 8020, 1867, 7516, 2147, 1276, 2183, 1257, 5049, 7258, 3561, 6721, 6695, 84, 9506, 5197, 2680, 8191, 9972, 5352, 2516, 8858, 4401, 5796, 5308, 4278, 8752, 5767, 2006, 7930, 1709, 3140, 5505, 8113, 1140, 8669, 4628, 1923, 1862, 5744, 6569, 393, 8374, 4876, 9644, 8079, 6602, 5324, 4817, 6273, 8775,};
 
         // CLI fpr user to view options
-        System.out.print("selection-sort (s)\n" + "Insertion-sort (i) \n" + "merge-sort (m) \n" + "heap-sort (h) \n"
-        + "quick-sort-fp (q) \n" + "quick-sort-rp (r) \n" + "Enter the algorithm: ");
+        System.out.print("selection-sort (1)\n" + "Insertion-sort (2) \n" + "merge-sort (3) \n" + "heap-sort (4) \n"
+        + "quick-sort-fp (5) \n" + "quick-sort-rp (6) \n" + "shell-sort (7) \n" + "Enter the algorithm: ");
         
         // Initializes variable which holds users sorting algorithm selection.
         String sortType = scanner.next();
 
         // Switch statement here that has cases for diff algorithms, for each case, will call a the algorithms custom method.
         switch (sortType) { 
-            case "s": 
+            case "1": 
                 long start = System.nanoTime(); 
                 selectionSort(a);
                 long end = System.nanoTime();
@@ -101,7 +112,7 @@ public class SortingDriver {
                 assert isSorted(a);
                 show(a);
                 break;
-            case "i": 
+            case "2": 
                 long start2 = System.nanoTime(); 
                 insertionSort(a);
                 long end2 = System.nanoTime();
@@ -110,22 +121,28 @@ public class SortingDriver {
                 assert isSorted(a);
                 show(a);
                 break;
-            case "h": 
+            case "3": 
                 break;
-            case "m": 
+            case "4": 
                 break;
-            case "q": 
+            case "5": 
                 break;
-            case "r": 
+            case "6": 
+                break;
+            case "7": 
+                long start3 = System.nanoTime(); 
+                shellSort(a);
+                long end3 = System.nanoTime();
+                double elapsedTime3 = (end3 - start3) / 1_000_000.0; 
+                System.out.println("Shell sort | Elapsed time: " + elapsedTime3 + " ms");
+                assert isSorted(a);
+                show(a);
                 break;
             default: 
                 System.out.println("Error in reading algortihm type input");
                 scanner.close();
                 return;
         } // switch
-        
-        
-        
         scanner.close();
     } // main
 } // SortDriver
